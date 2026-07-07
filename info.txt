@@ -1,0 +1,3 @@
+DB Information
+username - huser_dba
+password - hstocks_321 

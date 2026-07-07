@@ -1,0 +1,2 @@
+export declare function getHistoricalFromYahoo(symbol: string, period1: Date, period2: Date): Promise<import("yahoo-finance2/modules/historical").HistoricalHistoryResult>;
+//# sourceMappingURL=yahoo.service.d.ts.map
