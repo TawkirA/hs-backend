@@ -2,14 +2,21 @@ import axios from 'axios';
 import Stock from '../models/stocks.js';
 
 const importSymbols = async () => {
-    const response = await axios.get(process.env.NASDAQ_URL);
+    const nasdaqURL = process.env.NASDAQ_URL;
+    if (!nasdaqURL) {
+        throw new Error(
+            'NASDAQ_URL missing'
+        );
+    }
+
+    const response = await axios.get(nasdaqURL);
 
     const lines = response.data
-                    .split("\n")
-                    .filter(line => line.trim())
+                    .split('\n')
+                    .filter((line: string) => line.trim())
                     .slice(1, -1);
 
-    const stocks = lines.map(line => {
+    const stocks = lines.map((line: string) => {
         const [symbol, companyName, marketCategory ] = line.split("|");
 
         return {

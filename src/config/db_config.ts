@@ -3,6 +3,12 @@ import mongoose from 'mongoose';
 const mongoURL = process.env.MONGO_URI;
 console.log('mongoURL - ', mongoURL);
 
+if (!mongoURL) {
+    throw new Error(
+        'MONGODB_URI is missing'
+    );
+}
+
 const connectDB = async () => {
     try {
         await mongoose.connect(

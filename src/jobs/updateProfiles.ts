@@ -11,8 +11,8 @@ const updateProfiles = async () => {
         try {
             const profile = await YF.quoteSummary(
                 stock.symbol, {
-                    modules: ['assetProfile']
-                }
+                modules: ['assetProfile']
+            }
             );
 
             await Stock.updateOne(
@@ -27,13 +27,23 @@ const updateProfiles = async () => {
             )
 
             console.log(
-              `Updated ${stock.symbol}`
+                `Updated ${stock.symbol}`
             );
         } catch (error) {
-            console.error(
-              stock.symbol,
-              error.message
-            );
+            console.error(stock.symbol);
+            if (
+                error instanceof Error
+            ) {
+                console.error(
+                    error.message
+                );
+
+            } else {
+
+                console.error(
+                    'Unknown error'
+                );
+            }
         }
     }
 }
