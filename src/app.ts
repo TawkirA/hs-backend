@@ -8,7 +8,7 @@ import connectDB from './config/db_config.js';
 
 dotenv.config();
 
-console.log('mongoURL - ', process.env.MONGO_URI);
+// console.log('mongoURL - ', process.env.MONGO_URI);
 
 const app = express();
 
