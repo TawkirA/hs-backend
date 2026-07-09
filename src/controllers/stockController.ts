@@ -72,13 +72,19 @@ export const getHistoricalData = async (req: Request, res: Response, next: NextF
 // Search Assets or Tickers (e.g., /api/search?q=Apple)
 export const search = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const search = typeof req.query.search === 'string' ? req.query.search : '';
-
+        const search = typeof req.query.q === 'string' ? req.query.q : '';
+        console.log('Search query - ', req.query);
         const stocks = await Stock.find({
             $or: [
                 {
                     symbol: {
-                        $regex: search,
+                        $regex: `^${search}$`,   // exact match of symbol
+                        $options: 'i'
+                    }
+                },
+                {
+                    symbol: {
+                        $regex: `^${search}`,   // prefix match of symbol
                         $options: 'i'
                     }
                 },
@@ -89,7 +95,7 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
                     }
                 }
             ]
-        })
+        }).limit(10);
 
         res.json(stocks);
     } catch (error) {

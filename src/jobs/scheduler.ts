@@ -62,7 +62,7 @@ export const startCronJobs = () => {
   });
 
   // Every day at 6:00 PM  - '0 18 * * 1-5'
-  cron.schedule('*/2 * * * *', async () => {
+  cron.schedule('0 18 * * 1-5', async () => {
     try {
       console.log('Cron job started for updating history')
       await runHistoricalSync();
