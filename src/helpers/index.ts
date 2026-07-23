@@ -1,7 +1,7 @@
 import https from 'https';
 import fs from 'fs';
 import path from 'path';
-import csv from 'csv-parser';
+import * as csv from 'csv-parser';
 import type { URL } from 'node:url';
 import Stock from '../models/stocks.js';
 
