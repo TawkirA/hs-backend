@@ -2,6 +2,7 @@ import cron from 'node-cron';
 import importSymbols from './importSymbols.js';
 import updateQuotes from './updateQuotes.js';
 import updateProfiles from './updateProfiles.js';
+import { runFundamentalJob } from './updateFundamental.js';
 import { runHistoricalSync } from './historicalSync.js';
 export const startCronJobs = () => {
     // Every 15 minutes
@@ -15,7 +16,7 @@ export const startCronJobs = () => {
             console.error(error);
         }
     });
-    // Every 24 hours
+    // Every 24 hours at 2:00 AM
     cron.schedule('0 2 * * *', async () => {
         try {
             console.log('Cron job started for updating profiles');
@@ -27,40 +28,49 @@ export const startCronJobs = () => {
         }
     });
     // Every 24 hours
-    cron.schedule('0 2 * * *', async () => {
+    cron.schedule('0 3 * * *', async () => {
         try {
-            console.log('Cron job started for updating profiles');
-            await updateProfiles();
-            console.log('Cron job completed for updating profiles');
+            console.log('Cron job started for importing symbol');
+            await importSymbols();
+            console.log('Cron job completed for importing symbol');
         }
         catch (error) {
             console.error(error);
         }
     });
     // Daily at 2:00 AM
-    cron.schedule('0 2 * * *', async () => {
-        try {
-            console.log('Cron job started for updating profiles');
-            await updateProfiles();
-            console.log('Cron job completed for updating profiles');
-        }
-        catch (error) {
-            console.error(error);
-        }
-    });
+    // cron.schedule('0 2 * * *', async () => {
+    //   try {
+    //     console.log('Cron job started for updating profiles')
+    //     await updateProfiles();
+    //     console.log('Cron job completed for updating profiles');
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // });
     // Every Sunday at 3:00 AM
-    cron.schedule('0 3 * * 0', async () => {
+    // cron.schedule('*/10 * * * *', async () => {
+    //   try {
+    //     console.log('Cron job started for updating profiles')
+    //     await updateProfiles();
+    //     console.log('Cron job completed for updating profiles');
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // });
+    // Every Sunday at 3:00 AM
+    cron.schedule('0 3 * * *', async () => {
         try {
-            console.log('Cron job started for updating profiles');
-            await updateProfiles();
-            console.log('Cron job completed for updating profiles');
+            console.log('Cron job started for updating fundamentals');
+            await runFundamentalJob();
+            console.log('Cron job completed for updating fundamentals');
         }
         catch (error) {
-            console.error(error);
+            console.error('Error updating fundamentals', error);
         }
     });
     // Every day at 6:00 PM  - '0 18 * * 1-5'
-    cron.schedule('*/2 * * * *', async () => {
+    cron.schedule('0 18 * * 1-5', async () => {
         try {
             console.log('Cron job started for updating history');
             await runHistoricalSync();

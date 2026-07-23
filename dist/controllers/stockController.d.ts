@@ -8,4 +8,5 @@ export declare const getStocks: (req: Request, res: Response) => Promise<void>;
 export declare const getFilteredStocks: (req: Request, res: Response) => Promise<void>;
 export declare const topStocksByMarketCap: (req: Request, res: Response) => Promise<void>;
 export declare const getHistorical: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getFundamentals: (req: Request, res: Response) => Promise<void>;
 //# sourceMappingURL=stockController.d.ts.map

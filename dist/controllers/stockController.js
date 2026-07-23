@@ -6,12 +6,13 @@ import updateProfiles from '../jobs/updateProfiles.js';
 import updateQuotes from '../jobs/updateQuotes.js';
 import { download } from '../helpers/index.js';
 import Stock from '../models/stocks.js';
+import StockFundamental from '../models/stockFundamental.js';
 const getErrorMessage = (error) => {
     return error instanceof Error ? error.message : 'Unexpected error';
 };
 const getSymbol = (req) => {
     const { symbol } = req.params;
-    return typeof symbol === 'string' ? symbol.toUpperCase() : null;
+    return typeof symbol === 'string' ? symbol.toUpperCase() + '.NS' : null;
 };
 // Get quote by symbol
 export const getQuote = async (req, res, next) => {
@@ -20,6 +21,7 @@ export const getQuote = async (req, res, next) => {
         if (!symbol) {
             return res.status(400).json({ success: false, error: "Route parameter 'symbol' is required." });
         }
+        console.log('SYMBOL - ', symbol);
         const YF = new YahooFinance();
         const quote = await YF.quote(symbol);
         res.json({
@@ -62,12 +64,19 @@ export const getHistoricalData = async (req, res, next) => {
 // Search Assets or Tickers (e.g., /api/search?q=Apple)
 export const search = async (req, res, next) => {
     try {
-        const search = typeof req.query.search === 'string' ? req.query.search : '';
+        const search = typeof req.query.q === 'string' ? req.query.q : '';
+        console.log('Search query - ', req.query);
         const stocks = await Stock.find({
             $or: [
                 {
                     symbol: {
-                        $regex: search,
+                        $regex: `^${search}$`, // exact match of symbol
+                        $options: 'i'
+                    }
+                },
+                {
+                    symbol: {
+                        $regex: `^${search}`, // prefix match of symbol
                         $options: 'i'
                     }
                 },
@@ -78,7 +87,7 @@ export const search = async (req, res, next) => {
                     }
                 }
             ]
-        });
+        }).limit(10);
         res.json(stocks);
     }
     catch (error) {
@@ -229,5 +238,20 @@ export const getHistorical = async (req, res) => {
             message: getErrorMessage(error)
         });
     }
+};
+export const getFundamentals = async (req, res) => {
+    // const { symbol } = req.params;
+    // console.log('SYMBOL - ', symbol);
+    const symbl = getSymbol(req);
+    console.log('SYMBL - ', symbl);
+    let data = null;
+    try {
+        data = await StockFundamental.findOne({ symbol: symbl });
+        console.log('data - ', data);
+    }
+    catch (error) {
+        console.log('error - ', error);
+    }
+    res.json(data);
 };
 //# sourceMappingURL=stockController.js.map

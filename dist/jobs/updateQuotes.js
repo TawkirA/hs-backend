@@ -22,7 +22,13 @@ const updateQuotes = async () => {
             });
         }
         catch (error) {
-            console.error(stock.symbol, error.message);
+            console.error(stock.symbol);
+            if (error instanceof Error) {
+                console.error(error.message);
+            }
+            else {
+                console.error('Unknown error');
+            }
         }
     }
 };

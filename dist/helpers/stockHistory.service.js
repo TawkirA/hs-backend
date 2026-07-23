@@ -11,7 +11,7 @@ export const syncHistoricalData = async (symbol) => {
     }
     else {
         // Initial load
-        startDate = new Date('2020-01-01');
+        startDate = new Date('2026-01-01');
     }
     const endDate = new Date();
     const candles = await getHistoricalFromYahoo(symbol, startDate, endDate);
@@ -58,7 +58,7 @@ export const getHistoricalFromDB = (symbol, days) => {
         .lean();
 };
 export const backfillHistory = async (symbol) => {
-    const candles = await getHistoricalFromYahoo(symbol, new Date('2020-01-01'), new Date());
+    const candles = await getHistoricalFromYahoo(symbol, new Date('2026-01-01'), new Date());
     if (!candles.length) {
         return null;
     }

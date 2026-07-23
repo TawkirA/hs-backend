@@ -1,23 +1,51 @@
 import axios from 'axios';
 import Stock from '../models/stocks.js';
-const importSymbols = async () => {
-    const response = await axios.get(process.env.NASDAQ_URL);
-    const lines = response.data
-        .split("\n")
-        .filter(line => line.trim())
-        .slice(1, -1);
-    const stocks = lines.map(line => {
-        const [symbol, companyName, marketCategory] = line.split("|");
+import { importStocksFromFile } from '../helpers/index.js';
+const importStockSymbols = async () => {
+    // const nasdaqURL = process.env.NASDAQ_URL;
+    // if (!nasdaqURL) {
+    //     throw new Error(
+    //         'NASDAQ_URL missing'
+    //     );
+    // }
+    // const response = await axios.get(nasdaqURL);
+    // const lines = response.data
+    //                 .split('\n')
+    //                 .filter((line: string) => line.trim())
+    //                 .slice(1, -1);
+    // const stocks = lines.map((line: string) => {
+    //     const [symbol, companyName, marketCategory ] = line.split("|");
+    //     return {
+    //         symbol,
+    //         companyName,
+    //         marketCategory
+    //     };
+    // });
+    // for (const stock of stocks) {
+    //     await Stock.updateOne(
+    //         { symbol: stock.symbol },
+    //         { $set: stock },
+    //         { upsert: true }
+    //     )
+    // }
+    // console.log(
+    //   `${stocks.length} symbols imported`
+    // );
+    try {
+        console.log('START IMPORTING SYMBOL');
+        const count = await importStocksFromFile();
+        console.log('SYMBOL COUNT - ', count);
         return {
-            symbol,
-            companyName,
-            marketCategory
+            success: true,
+            count
         };
-    });
-    for (const stock of stocks) {
-        await Stock.updateOne({ symbol: stock.symbol }, { $set: stock }, { upsert: true });
     }
-    console.log(`${stocks.length} symbols imported`);
+    catch (error) {
+        console.error(error);
+        return {
+            success: false
+        };
+    }
 };
-export default importSymbols;
+export default importStockSymbols;
 //# sourceMappingURL=importSymbols.js.map
