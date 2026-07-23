@@ -8,9 +8,9 @@ import {
     getStocks,
     getFilteredStocks,
     topStocksByMarketCap,
-    getHistorical
+    getHistorical,
+    getFundamentals
 } from '../controllers/stockController.js';
-
 
 const router = Router();
 
@@ -22,6 +22,6 @@ router.get('/top-indian-stocks', getTopStocks);
 router.get('/lists', getStocks);
 router.get('/filter', getFilteredStocks);
 router.get('/top/marketCap', topStocksByMarketCap);
-
+router.get('/fundamentals/:symbol', getFundamentals);
 
 export default router;

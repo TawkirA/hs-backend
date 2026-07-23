@@ -1,12 +1,8 @@
 import express from 'express';
+import { runHistoricalBackfill } from '../jobs/historicalSync.js';
+import importStockSymbols from '../jobs/importSymbols.js';
 
-import {
-    runHistoricalBackfill
-}
-from '../jobs/historicalSync.js';
-
-const router =
-    express.Router();
+const router = express.Router();
 
 router.post(
     '/backfill-history',
@@ -24,5 +20,7 @@ router.post(
         });
     }
 );
+router.get('/import-symbols', importStockSymbols);
+
 
 export default router;

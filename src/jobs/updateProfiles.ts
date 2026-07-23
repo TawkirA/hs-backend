@@ -1,50 +1,64 @@
 import YahooFinance from 'yahoo-finance2';
 import Stock from '../models/stocks.js';
 
-const updateProfiles = async () => {
+
+const updateStockProfile = async (stock: any) => {
     const YF = new YahooFinance();
+    try {
+        const profile = await YF.quoteSummary(
+            stock.symbol, {
+            modules: ['assetProfile']
+        }
+        );
+
+        await Stock.updateOne(
+            { _id: stock._id },
+            {
+                $set: {
+                    sector: profile.assetProfile?.sector,
+                    industry: profile.assetProfile?.industry,
+                    lastProfileUpdated: new Date()
+                }
+            }
+        )
+
+        // console.log(
+        //     `Updated ${stock.symbol}`
+        // );
+    } catch (error) {
+        console.error(stock.symbol);
+        if (
+            error instanceof Error
+        ) {
+            console.error(
+                error.message
+            );
+
+        } else {
+
+            console.error(
+                'Unknown error'
+            );
+        }
+    }
+}
+
+const updateProfiles = async () => {
+
     const stocks = await Stock.find({
         sector: { $exists: false }
-    }).limit(100);
+    });
 
-    for (const stock of stocks) {
-        try {
-            const profile = await YF.quoteSummary(
-                stock.symbol, {
-                modules: ['assetProfile']
-            }
-            );
+    console.log('STOCKS Count - ', stocks.length);
 
-            await Stock.updateOne(
-                { _id: stock._id },
-                {
-                    $set: {
-                        sector: profile.assetProfile?.sector,
-                        industry: profile.assetProfile?.industry,
-                        lastProfileUpdated: new Date()
-                    }
-                }
-            )
+    const batchSize = 5;
 
-            console.log(
-                `Updated ${stock.symbol}`
-            );
-        } catch (error) {
-            console.error(stock.symbol);
-            if (
-                error instanceof Error
-            ) {
-                console.error(
-                    error.message
-                );
+    for (let i = 0; i < stocks.length; i += batchSize) {
+        const batch = stocks.slice(i, i + batchSize);
 
-            } else {
-
-                console.error(
-                    'Unknown error'
-                );
-            }
-        }
+        await Promise.all(
+            batch.map(stock => updateStockProfile(stock))
+        )
     }
 }
 

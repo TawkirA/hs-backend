@@ -7,6 +7,7 @@ import updateProfiles from '../jobs/updateProfiles.js';
 import updateQuotes from '../jobs/updateQuotes.js';
 import { download } from '../helpers/index.js';
 import Stock from '../models/stocks.js';
+import StockFundamental from '../models/stockFundamental.js';
 
 const getErrorMessage = (error: unknown) => {
     return error instanceof Error ? error.message : 'Unexpected error';
@@ -14,7 +15,7 @@ const getErrorMessage = (error: unknown) => {
 
 const getSymbol = (req: Request) => {
     const { symbol } = req.params;
-    return typeof symbol === 'string' ? symbol.toUpperCase() : null;
+    return typeof symbol === 'string' ? symbol.toUpperCase() + '.NS' : null;
 };
 
 // Get quote by symbol
@@ -25,6 +26,7 @@ export const getQuote = async (req: Request, res: Response, next: NextFunction) 
             return res.status(400).json({ success: false, error: "Route parameter 'symbol' is required." });
         }
 
+        console.log('SYMBOL - ', symbol);
         const YF = new YahooFinance();
         const quote = await YF.quote(symbol);
 
@@ -267,4 +269,21 @@ export const getHistorical = async (req: Request, res: Response) => {
             message: getErrorMessage(error)
         });
     }
+}
+
+export const getFundamentals = async (req: Request, res: Response) => {
+    // const { symbol } = req.params;
+    // console.log('SYMBOL - ', symbol);
+    const symbl = getSymbol(req);
+    console.log('SYMBL - ', symbl);
+    let data = null;
+    try {
+        data = await StockFundamental.findOne({ symbol: symbl });
+
+        console.log('data - ', data);
+    } catch (error) {
+        console.log('error - ', error);
+    }
+
+    res.json(data);
 }
