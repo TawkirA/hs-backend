@@ -66,9 +66,9 @@ declare const _default: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
+}>, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
 }, {
     symbol: string;
@@ -135,9 +135,9 @@ declare const _default: mongoose.Model<{
     _id: mongoose.Types.ObjectId;
 } & {
     __v: number;
-}, "id"> & {
+}, "id"> & mongoose.HydratedDocumentOverrides<{
     id: string;
-}, unknown, {
+}>, unknown, {
     symbol: string;
     historicalSyncStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED";
     volume?: number | null;
