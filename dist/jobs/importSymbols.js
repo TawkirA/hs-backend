@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Stock from '../models/stocks.js';
 import { importStocksFromFile } from '../helpers/index.js';
 const importStockSymbols = async () => {
     // const nasdaqURL = process.env.NASDAQ_URL;

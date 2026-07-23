@@ -8,10 +8,10 @@
     // See also https://aka.ms/tsconfig/module
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "target": "esnext",
+    "target": "ES2022",
     // For nodejs:
     // "lib": ["esnext"],
-    "types": ["node"],
+    // "types": ["node"],
     // and npm install -D @types/node
 
     // Other Outputs
@@ -20,8 +20,8 @@
     "declarationMap": true,
 
     // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    // "noUncheckedIndexedAccess": true,
+    // "exactOptionalPropertyTypes": true,
 
     // Style Options
     // "noImplicitReturns": true,
@@ -34,10 +34,10 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
+    // "verbatimModuleSyntax": true,
+    // "isolatedModules": true,
+    // "noUncheckedSideEffectImports": true,
+    // "moduleDetection": "force",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true

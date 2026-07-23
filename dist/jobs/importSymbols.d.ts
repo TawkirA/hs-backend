@@ -3,7 +3,7 @@ declare const importStockSymbols: () => Promise<{
     count: unknown;
 } | {
     success: boolean;
-    count?: never;
+    count?: undefined;
 }>;
 export default importStockSymbols;
 //# sourceMappingURL=importSymbols.d.ts.map

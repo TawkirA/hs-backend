@@ -10,7 +10,7 @@ export declare const getHistoricalFromDB: (symbol: string, days: number) => impo
 } & {
     id: string;
 }, {}, import("../models/stockHistory.js").IStockHistory, "find", {}>;
-export declare const backfillHistory: (symbol: string) => Promise<import("yahoo-finance2/modules/historical").HistoricalRowHistory | null | undefined>;
+export declare const backfillHistory: (symbol: string) => Promise<import("yahoo-finance2/modules/historical").HistoricalRowHistory | null>;
 export declare const getHistoricalFromMongo: (symbol: string, days: number) => Promise<(import("../models/stockHistory.js").IStockHistory & Required<{
     _id: import("mongoose").Types.ObjectId;
 }> & {
@@ -29,7 +29,7 @@ declare const _default: {
     } & {
         id: string;
     }, {}, import("../models/stockHistory.js").IStockHistory, "find", {}>;
-    backfillHistory: (symbol: string) => Promise<import("yahoo-finance2/modules/historical").HistoricalRowHistory | null | undefined>;
+    backfillHistory: (symbol: string) => Promise<import("yahoo-finance2/modules/historical").HistoricalRowHistory | null>;
     getHistoricalFromMongo: (symbol: string, days: number) => Promise<(import("../models/stockHistory.js").IStockHistory & Required<{
         _id: import("mongoose").Types.ObjectId;
     }> & {

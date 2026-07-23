@@ -1,7 +1,6 @@
 import YahooFinance from 'yahoo-finance2';
 import config from '../config/config.js';
-import { getHistoricalFromDB, getHistoricalFromMongo } from '../helpers/stockHistory.service.js';
-import importSymbols from '../jobs/importSymbols.js';
+import { getHistoricalFromMongo } from '../helpers/stockHistory.service.js';
 import updateProfiles from '../jobs/updateProfiles.js';
 import updateQuotes from '../jobs/updateQuotes.js';
 import { download } from '../helpers/index.js';

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 const StockFundamentalSchema = new Schema({
     symbol: {
         type: String,
